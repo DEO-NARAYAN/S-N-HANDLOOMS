@@ -5,11 +5,523 @@
 
 'use strict';
 
-// ─── State Management ────────────────────────────────────────────
+const DEFAULT_PRODUCTS = [
+  {
+    "id": "prod-1",
+    "name": "Burgundy Crochet Tote",
+    "category": "Bags",
+    "price": "₹850",
+    "priceRaw": 850,
+    "badge": "bestseller ♡",
+    "tagline": "handmade with love ♡",
+    "desc": "Handcrafted burgundy crochet tote with an elegant cream bow detail. Sturdy, spacious & so dreamy. Styled with sweet love notes ♡ Made to last.",
+    "image": "images/product_tote_doodles_full.jpg",
+    "images": [
+      "images/product_tote_doodles_full.jpg",
+      "images/product_tote_garden.jpg",
+      "images/product_tote_model.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 1,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-2",
+    "name": "Watermelon Keychain 🍉",
+    "category": "Keychains",
+    "price": "₹180",
+    "priceRaw": 180,
+    "badge": "tiny joy ✦",
+    "tagline": "viva la vida ♡",
+    "desc": "Fresh as summer sunshine! A handcrafted crochet watermelon slice keychain. Carry happiness wherever you go 🍉 Makes the cutest bag charm or gift for your bestie.",
+    "image": "images/product_watermelon_hand.jpg",
+    "images": [
+      "images/product_watermelon_hand.jpg",
+      "images/product_watermelon_keychain.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 2,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-3",
+    "name": "Pink Bow Hair Clips 🎀",
+    "category": "Hair Accessories",
+    "price": "₹220",
+    "priceRaw": 220,
+    "badge": "fan fav ♡",
+    "tagline": "bows fix everything ♡",
+    "desc": "The cutest pink crochet bow hair clips! Available in two sizes — big statement bow or teeny tiny bow. Bows fix everything ♡ Perfect for everyday styling or gifting.",
+    "image": "images/product_pink_bow_real.jpg",
+    "images": [
+      "images/product_pink_bow_real.jpg",
+      "images/product_pink_bow.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 3,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-4",
+    "name": "Floral Braid Parandi 🌸",
+    "category": "Hair Accessories",
+    "price": "₹380",
+    "priceRaw": 380,
+    "badge": "dreamy era ✦",
+    "tagline": "bloom where you are planted ♡",
+    "desc": "A dreamy cascading floral crochet braid accessory with delicate red & white blossoms and tassel finish 🌸 'Little moments, big memories.' Makes traditional & modern hairstyles turn heads!",
+    "image": "images/product_floral_braid.jpg",
+    "images": [
+      "images/product_floral_braid.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 4,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-5",
+    "name": "Mini Luffy Straw Hat ⚡",
+    "category": "Anime",
+    "price": "₹250",
+    "priceRaw": 250,
+    "badge": "anime collab ✦",
+    "tagline": "tiny hat, big love ♡",
+    "desc": "The iconic straw hat of the future King of the Pirates! 'Tiny hat, big love 🏴‍☠️ Small things bring big happiness.' The ultimate anime collectible.",
+    "image": "images/product_luffy_doodles.jpg",
+    "images": [
+      "images/product_luffy_doodles.jpg",
+      "images/product_luffy_hat2.jpg",
+      "images/product_luffy_hat.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 5,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-6",
+    "name": "Sunflower Desk Pot 🌻",
+    "category": "Decor",
+    "price": "₹320",
+    "priceRaw": 320,
+    "badge": "desk bestie ✦",
+    "tagline": "grow at your own pace ♡",
+    "desc": "A vibrant handmade crochet sunflower sitting in a cozy pot! Spreads warm sunshine energy to your study table, work desk or bookshelf 🌻 Grow at your own pace.",
+    "image": "images/product_sunflower_square.jpg",
+    "images": [
+      "images/product_sunflower_square.jpg",
+      "images/product_sunflower_flatlay.jpg",
+      "images/product_sunflower_pot.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 6,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-7",
+    "name": "Rose Bouquet Embroidery 🪡",
+    "category": "Embroidery",
+    "price": "₹450+",
+    "priceRaw": 450,
+    "badge": "custom ♡",
+    "tagline": "stitch by stitch, just for you ♡",
+    "desc": "Exquisite dimensional bullion rose embroidery framed in a wooden hoop with satin ribbons & pearl bead accents 🪡 Custom lettering & dates available!",
+    "image": "images/product_embroidery_roses.jpg",
+    "images": [
+      "images/product_embroidery_roses.jpg",
+      "images/product_rose_detail.jpg",
+      "images/product_embroidery.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": false,
+    "displayOrder": 7,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-8",
+    "name": "Chopper Antler Pins 🦌",
+    "category": "Anime",
+    "price": "₹200",
+    "priceRaw": 200,
+    "badge": "One Piece ✦",
+    "tagline": "wear your anime love ♡",
+    "desc": "Adorable pink hat inspired by everyone's favourite doctor reindeer, Tony Tony Chopper! Wear your anime love proudly 🦌 Each piece is handcrafted with love.",
+    "image": "images/product_chopper_hat.jpg",
+    "images": [
+      "images/product_chopper_hat.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 8,
+    "createdAt": "2026-08-16T12:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-9",
+    "name": "Rose Pearl Keychain 🌹",
+    "category": "Keychains",
+    "price": "₹280",
+    "priceRaw": 280,
+    "badge": "new arrival 🌹",
+    "tagline": "romantic + handcrafted ♡",
+    "desc": "Delicate crocheted red rose buds paired with pearl bead loops and a satin bow — the most romantic keychain you will ever own 🌹 Makes the perfect gift for someone special!",
+    "image": "images/product_rose_keychain.jpg",
+    "images": [
+      "images/product_rose_keychain.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 9,
+    "createdAt": "2026-08-19T00:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-10",
+    "name": "Burgundy Crochet Tote 🎀",
+    "category": "Bags",
+    "price": "₹650",
+    "priceRaw": 650,
+    "badge": "bestseller ✦",
+    "tagline": "carry love everywhere ♡",
+    "desc": "A gorgeous burgundy crochet tote with a cream bow charm — styled to perfection. Handcrafted, structured, and absolutely stunning as a daily carry or a gift ♡",
+    "image": "images/product_tote_model.jpg",
+    "images": [
+      "images/product_tote_model.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 10,
+    "createdAt": "2026-08-19T00:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-11",
+    "name": "Nikkah Keepsake Mirror Frame 💍",
+    "category": "Embroidery",
+    "price": "₹750+",
+    "priceRaw": 750,
+    "badge": "custom heirloom ✦",
+    "tagline": "created you in pairs ♡",
+    "desc": "Luxury personalized velvet & heart mirror keepsake board inscribed with 'And We Created You in Pairs', couple names, and Nikkah date. Embellished with handmade satin roses & pearl bead border 💍",
+    "image": "images/product_nikkah_plate.jpg",
+    "images": [
+      "images/product_nikkah_plate.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": true,
+    "displayOrder": 11,
+    "createdAt": "2026-08-19T00:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-12",
+    "name": "Crochet Floral Bandana 🌿",
+    "category": "Hair Accessories",
+    "price": "₹340",
+    "priceRaw": 340,
+    "badge": "cottagecore ✦",
+    "tagline": "cottagecore dreamy era ♡",
+    "desc": "Aesthetic handcrafted crochet hair kerchiefs & bandanas! Available in daisy granny squares, sage mesh, lavender scallop, and sunflower patterns. The ultimate cottagecore statement 🌿",
+    "image": "images/product_bandanas_collage.jpg",
+    "images": [
+      "images/product_bandanas_collage.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 12,
+    "createdAt": "2026-08-19T01:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-13",
+    "name": "Pink Tulip Bell Keychain 🌷",
+    "category": "Keychains",
+    "price": "₹240",
+    "priceRaw": 240,
+    "badge": "spring vibes ♡",
+    "tagline": "sweet blooms on the go ♡",
+    "desc": "Sweet double pink crochet tulip bell charms with leafy green stems! Looks adorable hanging on backpacks, handbags, or car mirrors 🌷 Handcrafted stitch by stitch.",
+    "image": "images/product_pink_tulips.jpg",
+    "images": [
+      "images/product_pink_tulips.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 13,
+    "createdAt": "2026-08-19T01:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-14",
+    "name": "Lippan Mirror Wall Art 🎨",
+    "category": "Decor",
+    "price": "₹590+",
+    "priceRaw": 590,
+    "badge": "traditional art ✦",
+    "tagline": "festive sparkle for your home ♡",
+    "desc": "Intricately crafted colorful Lippan mirror art on circular wooden base. Traditional clay relief work adorned with sparkling glass mirrors in joyful festive hues 🎨 Ready to hang.",
+    "image": "images/product_lippan_art.jpg",
+    "images": [
+      "images/product_lippan_art.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 14,
+    "createdAt": "2026-08-19T01:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-15",
+    "name": "Crochet Daisy Brooch 🌼",
+    "category": "Decor",
+    "price": "₹150",
+    "priceRaw": 150,
+    "badge": "handmade joy ♡",
+    "tagline": "wear a little sunshine ♡",
+    "desc": "Cheerful sunny daisy flower handcrafted in plush cotton yarn. Wear as a brooch, pin to your tote bag, or use as an applique to customize your favorite jackets and tops 🌼",
+    "image": "images/product_daisy_flower.jpg",
+    "images": [
+      "images/product_daisy_flower.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 15,
+    "createdAt": "2026-08-19T01:00:00.000Z",
+    "updatedAt": "2026-08-19T01:00:00.000Z"
+  },
+  {
+    "id": "prod-16",
+    "name": "Floral Crochet Phone Case 📱",
+    "category": "Decor",
+    "price": "₹360",
+    "priceRaw": 360,
+    "badge": "cozy tech ♡",
+    "tagline": "dress your tech in flowers ♡",
+    "desc": "Keep your phone cozy & scratch-free! Handcrafted in rich navy blue textured yarn with scalloped camera cutout border, white 3D floral appliques with pearl beads, and a sweet bow accent 📱",
+    "image": "images/product_phone_case.jpg",
+    "images": [
+      "images/product_phone_case.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 16,
+    "createdAt": "2026-08-19T01:10:00.000Z",
+    "updatedAt": "2026-08-19T01:10:00.000Z"
+  },
+  {
+    "id": "prod-17",
+    "name": "Holding Hands Custom Embroidery 🪡",
+    "category": "Embroidery",
+    "price": "₹490+",
+    "priceRaw": 490,
+    "badge": "sentimental ♡",
+    "tagline": "memories in every thread ♡",
+    "desc": "Emotional, timeless minimalist line art embroidery of holding hands with wheat sprigs and Arabic calligraphy on soft pink linen 🪡 Personalized with dates and custom names.",
+    "image": "images/product_hands_embroidery.jpg",
+    "images": [
+      "images/product_hands_embroidery.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": true,
+    "displayOrder": 17,
+    "createdAt": "2026-08-19T01:10:00.000Z",
+    "updatedAt": "2026-08-19T01:10:00.000Z"
+  },
+  {
+    "id": "prod-18",
+    "name": "Purple Tulip Bell Keychain 💜",
+    "category": "Keychains",
+    "price": "₹240",
+    "priceRaw": 240,
+    "badge": "aesthetic charm ✦",
+    "tagline": "lavender dreams on the go ♡",
+    "desc": "Vibrant lavender-purple crochet tulip bell flowers on a green leafy branch! Pairs with bags, keyrings, and backpacks for an instant pop of handcrafted charm 💜",
+    "image": "images/product_purple_tulips.jpg",
+    "images": [
+      "images/product_purple_tulips.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 18,
+    "createdAt": "2026-08-19T01:10:00.000Z",
+    "updatedAt": "2026-08-19T01:10:00.000Z"
+  },
+  {
+    "id": "prod-19",
+    "name": "Holy Kaaba Embroidery Hoop 🕋",
+    "category": "Embroidery",
+    "price": "₹850+",
+    "priceRaw": 850,
+    "badge": "spiritual heirloom ✦",
+    "tagline": "sacred stitches, eternal grace ♡",
+    "desc": "Breathtaking hand-embroidered Holy Kaaba masterpiece with gold Kiswa detail, 'MashaAllah' & 'Alhamdulillah' calligraphy, framed in pearls with a satin bow 🕋 A treasured Islamic heirloom.",
+    "image": "images/product_kaaba_embroidery.jpg",
+    "images": [
+      "images/product_kaaba_embroidery.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": true,
+    "displayOrder": 19,
+    "createdAt": "2026-08-19T01:15:00.000Z",
+    "updatedAt": "2026-08-19T01:15:00.000Z"
+  },
+  {
+    "id": "prod-20",
+    "name": "Red Cherry Charm 🍒",
+    "category": "Keychains",
+    "price": "₹220",
+    "priceRaw": 220,
+    "badge": "juicy cute ♡",
+    "tagline": "double the sweetness ♡",
+    "desc": "Sweet double red crochet cherries with twin green leaves! A playful and cute statement piece to hang from your backpack, handbag, or keys 🍒 Handcrafted with love.",
+    "image": "images/product_cherry_charm.jpg",
+    "images": [
+      "images/product_cherry_charm.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 20,
+    "createdAt": "2026-08-19T01:15:00.000Z",
+    "updatedAt": "2026-08-19T01:15:00.000Z"
+  },
+  {
+    "id": "prod-21",
+    "name": "Rose Spiral Hair Clip 🌹",
+    "category": "Hair Accessories",
+    "price": "₹260",
+    "priceRaw": 260,
+    "badge": "romantic flair ✦",
+    "tagline": "blooms in your hair ♡",
+    "desc": "A blooming 3D pink crochet rose with dual cascading white spiral tendril coils 🌹 Adds effortless romance to ponytails, buns, and braids.",
+    "image": "images/product_rose_hair_spiral.jpg",
+    "images": [
+      "images/product_rose_hair_spiral.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 21,
+    "createdAt": "2026-08-19T01:15:00.000Z",
+    "updatedAt": "2026-08-19T01:15:00.000Z"
+  },
+  {
+    "id": "prod-22",
+    "name": "Boho Crochet Bandana Trio 🍂",
+    "category": "Hair Accessories",
+    "price": "₹360",
+    "priceRaw": 360,
+    "badge": "earthy vibes ✦",
+    "tagline": "classic triangle kerchiefs ♡",
+    "desc": "Triangle granny-stitch crochet head kerchiefs with braided ties in rich burgundy, warm beige, and natural cream 🍂 Lightweight, breathable, and so chic.",
+    "image": "images/product_bandanas_trio.jpg",
+    "images": [
+      "images/product_bandanas_trio.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": false,
+    "displayOrder": 22,
+    "createdAt": "2026-08-19T01:15:00.000Z",
+    "updatedAt": "2026-08-19T01:15:00.000Z"
+  },
+  {
+    "id": "prod-23",
+    "name": "Nikkah Arabic Name Hoop 💍",
+    "category": "Embroidery",
+    "price": "₹790+",
+    "priceRaw": 790,
+    "badge": "wedding keepsake ✦",
+    "tagline": "blessings in every stitch ♡",
+    "desc": "Bespoke hand-embroidered Nikkah wedding hoop art featuring custom Arabic calligraphy of couple names, wedding date, twin rings, floral bouquet, satin ribbon, and pearl frame 💍",
+    "image": "images/product_nikkah_hoop.jpg",
+    "images": [
+      "images/product_nikkah_hoop.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": true,
+    "displayOrder": 23,
+    "createdAt": "2026-08-19T01:17:00.000Z",
+    "updatedAt": "2026-08-19T01:17:00.000Z"
+  },
+  {
+    "id": "prod-24",
+    "name": "Personalized Name Heart Hoop 🌸",
+    "category": "Embroidery",
+    "price": "₹520+",
+    "priceRaw": 520,
+    "badge": "custom gift ♡",
+    "tagline": "customized just for you ♡",
+    "desc": "A delicate handcrafted wooden embroidery hoop featuring your custom name centered inside a charming floral garland heart with pearls & french knots 🌸 Makes the sweetest gift!",
+    "image": "images/product_name_heart_hoop.jpg",
+    "images": [
+      "images/product_name_heart_hoop.jpg"
+    ],
+    "available": true,
+    "stock": "custom_only",
+    "featured": false,
+    "displayOrder": 24,
+    "createdAt": "2026-08-19T01:17:00.000Z",
+    "updatedAt": "2026-08-19T01:17:00.000Z"
+  },
+  {
+    "id": "prod-25",
+    "name": "Pink Ruffle Bow Pouch 🎀",
+    "category": "Bags",
+    "price": "₹420",
+    "priceRaw": 420,
+    "badge": "coquette aesthetic ✦",
+    "tagline": "coquette ruffle magic ♡",
+    "desc": "The ultimate coquette dream! Handcrafted cream crochet mini bag featuring wide pink ruffled trims and delicate pink satin ribbon ties with dainty bows 🎀",
+    "image": "images/product_pink_ruffle_pouch.jpg",
+    "images": [
+      "images/product_pink_ruffle_pouch.jpg"
+    ],
+    "available": true,
+    "stock": "in_stock",
+    "featured": true,
+    "displayOrder": 25,
+    "createdAt": "2026-08-19T01:18:00.000Z",
+    "updatedAt": "2026-08-19T01:18:00.000Z"
+  }
+];
+
 const state = {
   authenticated: false,
   user: '',
-  products: [],
+  products: [...DEFAULT_PRODUCTS],
   categories: new Set(),
   filter: {
     search: '',
@@ -23,7 +535,6 @@ const state = {
   isUploadingImage: false
 };
 
-// ─── DOM Element References ──────────────────────────────────────
 const dom = {
   // Views
   loginView: document.getElementById('login-view'),
@@ -116,13 +627,13 @@ const dom = {
   toastContainer: document.getElementById('toast-container')
 };
 
-// ─── Initialize Application ──────────────────────────────────────
+// â”€â”€â”€ Initialize Application â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   checkAuthentication();
 });
 
-// ─── Event Listeners Setup ───────────────────────────────────────
+// â”€â”€â”€ Event Listeners Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function setupEventListeners() {
   // Login Form
   dom.loginForm.addEventListener('submit', handleLogin);
@@ -250,7 +761,7 @@ function setupEventListeners() {
   });
 }
 
-// ─── Authentication Functions ────────────────────────────────────
+// â”€â”€â”€ Authentication Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function checkAuthentication() {
   const localSession = sessionStorage.getItem('sabnam_admin_session');
   if (localSession === 'authenticated') {
@@ -303,7 +814,7 @@ async function handleLogin(e) {
       const data = await res.json();
       if (data.success) {
         sessionStorage.setItem('sabnam_admin_session', 'authenticated');
-        showToast('Welcome back, Sabnam! 🌸', 'success');
+        showToast('Welcome back, Sabnam! ðŸŒ¸', 'success');
         showAppView(data.user || 'Sabnam@AVM1');
         loadProducts();
         setBtnLoading(dom.loginSubmitBtn, false);
@@ -316,7 +827,7 @@ async function handleLogin(e) {
 
   if (isValidLocal) {
     sessionStorage.setItem('sabnam_admin_session', 'authenticated');
-    showToast('Welcome back, Sabnam! 🌸', 'success');
+    showToast('Welcome back, Sabnam! ðŸŒ¸', 'success');
     showAppView('Sabnam@AVM1');
     loadProducts();
   } else {
@@ -364,7 +875,7 @@ function togglePasswordVisibility() {
     : '<i class="fa-regular fa-eye"></i>';
 }
 
-// ─── Products Data Fetching ──────────────────────────────────────
+// â”€â”€â”€ Products Data Fetching â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function loadProducts(isRefresh = false) {
   dom.loadingIndicator.style.display = 'flex';
   dom.emptyState.style.display = 'none';
@@ -398,14 +909,9 @@ async function loadProducts(isRefresh = false) {
     }
   }
 
-  if (!loaded) {
-    try {
-      const res = await fetch('../data/products.json');
-      if (res.ok) {
-        state.products = await res.json();
-        localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
-      }
-    } catch (e) {}
+  if (!loaded || !state.products || state.products.length === 0) {
+    state.products = [...DEFAULT_PRODUCTS];
+    localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
   }
 
   // Extract categories
@@ -459,7 +965,7 @@ function populateCategoryFilter() {
   }
 }
 
-// ─── Table Rendering & Filtering ─────────────────────────────────
+// â”€â”€â”€ Table Rendering & Filtering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function renderProductsTable() {
   let filtered = [...state.products];
 
@@ -525,8 +1031,8 @@ function renderProductsTable() {
         <div class="order-cell">
           <span class="order-number">${prod.displayOrder || (index + 1)}</span>
           <div class="order-btn-col">
-            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', -1)" title="Move up">▲</button>
-            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', 1)" title="Move down">▼</button>
+            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', -1)" title="Move up">â–²</button>
+            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', 1)" title="Move down">â–¼</button>
           </div>
         </div>
       </td>
@@ -537,7 +1043,7 @@ function renderProductsTable() {
         <div class="product-cell-details">
           <div class="product-cell-title">
             <span>${escapeHtml(prod.name)}</span>
-            ${prod.featured ? '<span class="badge-featured">★ Featured</span>' : ''}
+            ${prod.featured ? '<span class="badge-featured">â˜… Featured</span>' : ''}
             ${prod.badge ? `<span style="font-size:0.7rem; color:var(--terracotta); font-weight:700;">${escapeHtml(prod.badge)}</span>` : ''}
           </div>
           <span class="product-cell-tagline">${escapeHtml(prod.tagline || '')}</span>
@@ -548,7 +1054,7 @@ function renderProductsTable() {
         <span class="pill-category">${escapeHtml(prod.category || 'General')}</span>
       </td>
       <td>
-        <span class="product-cell-price">${escapeHtml(prod.price || '₹0')}</span>
+        <span class="product-cell-price">${escapeHtml(prod.price || 'â‚¹0')}</span>
       </td>
       <td>
         <span class="pill-stock ${stockInfo.class}">
@@ -592,7 +1098,7 @@ function getValidImageUrl(path) {
   return `/images/${path}`;
 }
 
-// ─── Add / Edit Product Modal Logic ──────────────────────────────
+// â”€â”€â”€ Add / Edit Product Modal Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function openProductModal(productId = null) {
   dom.formError.style.display = 'none';
   state.editingProductId = productId;
@@ -648,16 +1154,16 @@ function closeProductModal() {
 function updateMiniCardPreview() {
   const name = dom.formName.value.trim() || 'Product Name';
   const priceVal = dom.formPrice.value || '0';
-  const badge = dom.formBadge.value.trim() || 'bestseller ♡';
+  const badge = dom.formBadge.value.trim() || 'bestseller â™¡';
   const imgUrl = state.uploadedImageUrl || dom.formImageUrl.value.trim() || '../images/logo.jpg';
 
   dom.miniCardName.textContent = name;
-  dom.miniCardPrice.textContent = `₹${priceVal}`;
+  dom.miniCardPrice.textContent = `â‚¹${priceVal}`;
   dom.miniCardBadge.textContent = badge;
   dom.miniCardImg.src = getValidImageUrl(imgUrl);
 }
 
-// ─── Image Upload Handling ───────────────────────────────────────
+// â”€â”€â”€ Image Upload Handling â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function uploadImageFile(file) {
   if (!file) return;
 
@@ -692,7 +1198,7 @@ async function uploadImageFile(file) {
       dom.formImageUrl.value = data.url;
       setImagePreview(data.url);
       updateMiniCardPreview();
-      showToast('Image uploaded successfully! 📸', 'success');
+      showToast('Image uploaded successfully! ðŸ“¸', 'success');
     } else {
       showToast(data.error || 'Failed to upload image.', 'error');
     }
@@ -720,7 +1226,7 @@ function clearImagePreview() {
   updateMiniCardPreview();
 }
 
-// ─── Product Save / Create / Update ──────────────────────────────
+// â”€â”€â”€ Product Save / Create / Update â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 async function handleSaveProduct(e) {
   e.preventDefault();
   dom.formError.style.display = 'none';
@@ -759,7 +1265,7 @@ async function handleSaveProduct(e) {
   const payload = {
     name,
     category,
-    price: `₹${priceRaw}`,
+    price: `â‚¹${priceRaw}`,
     priceRaw,
     stock,
     displayOrder,
@@ -817,7 +1323,7 @@ async function handleSaveProduct(e) {
   } finally {
     localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
     setBtnLoading(dom.saveProductBtn, false);
-    showToast(state.editingProductId ? 'Product updated successfully! ✨' : 'New product published! 🌸', 'success');
+    showToast(state.editingProductId ? 'Product updated successfully! âœ¨' : 'New product published! ðŸŒ¸', 'success');
     closeProductModal();
     updateStats();
     renderProductsTable();
@@ -829,13 +1335,13 @@ function showFormError(msg) {
   dom.formError.style.display = 'flex';
 }
 
-// ─── Quick Toggle Availability ───────────────────────────────────
+// â”€â”€â”€ Quick Toggle Availability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.toggleProductAvailability = async function(productId) {
   const p = state.products.find(x => x.id === productId);
   if (p) {
     p.available = (p.available === false) ? true : false;
     localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
-    showToast(p.available ? 'Product published! 🌸' : 'Product hidden from store.', 'info');
+    showToast(p.available ? 'Product published! ðŸŒ¸' : 'Product hidden from store.', 'info');
     updateStats();
     renderProductsTable();
   }
@@ -845,7 +1351,7 @@ window.toggleProductAvailability = async function(productId) {
   } catch (err) {}
 };
 
-// ─── Move Product Order ──────────────────────────────────────────
+// â”€â”€â”€ Move Product Order â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.moveProductOrder = async function(productId, direction) {
   const sorted = [...state.products].sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
   const idx = sorted.findIndex(p => p.id === productId);
@@ -877,7 +1383,7 @@ window.moveProductOrder = async function(productId, direction) {
   } catch (err) {}
 };
 
-// ─── Delete Product Logic ────────────────────────────────────────
+// â”€â”€â”€ Delete Product Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 window.openDeleteModal = function(productId) {
   const prod = state.products.find(p => p.id === productId);
   if (!prod) return;
@@ -915,7 +1421,7 @@ async function confirmDeleteProduct() {
   setBtnLoading(dom.confirmDeleteBtn, false);
 }
 
-// ─── Toast Notifications ─────────────────────────────────────────
+// â”€â”€â”€ Toast Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -940,7 +1446,7 @@ function showToast(message, type = 'info') {
   }, 3500);
 }
 
-// ─── Utility Helpers ─────────────────────────────────────────────
+// â”€â”€â”€ Utility Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 function setBtnLoading(btn, isLoading) {
   if (!btn) return;
   const textSpan = btn.querySelector('.btn-text');
