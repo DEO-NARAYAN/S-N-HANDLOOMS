@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard · Sabnam Handlooms & Arts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body>
+
+  <!-- ─── TOAST NOTIFICATIONS CONTAINER ────────────────────────── -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- ─── LOGIN SCREEN (Shown when Unauthenticated) ─────────────── -->
+  <div id="login-view" class="login-view">
+    <div class="login-backdrop">
+      <div class="login-glow-1"></div>
+      <div class="login-glow-2"></div>
+    </div>
+    
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo-wrap">
+          <img src="/images/logo.jpg" alt="Sabnam Handlooms Logo" class="login-logo" onerror="this.src='/images/sn_logo.jpg'" />
+        </div>
+        <span class="login-eyebrow">Studio Management</span>
+        <h1 class="login-title">Sabnam Admin Portal</h1>
+        <p class="login-subtitle">Sign in to manage your public catalog & orders ♡</p>
+      </div>
+
+      <form id="login-form" class="login-form" novalidate>
+        <div id="login-error" class="alert-banner alert-error" style="display: none;"></div>
+
+        <div class="form-group">
+          <label for="login-id">Admin ID / Username</label>
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="login-id" name="id" class="form-input" placeholder="e.g. Sabnam@AVM1" autocomplete="username" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Password</label>
+          <div class="input-icon-wrap">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="login-password" name="password" class="form-input" placeholder="••••••••••••" autocomplete="current-password" required />
+            <button type="button" class="btn-toggle-pwd" id="toggle-pwd-btn" aria-label="Toggle password visibility">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full" id="login-submit-btn">
+          <span class="btn-text">Sign In to Dashboard ✨</span>
+          <span class="btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Authenticating...</span>
+        </button>
+
+        <div class="login-footer">
+          <a href="/" target="_blank" class="back-to-store-link">
+            <i class="fa-solid fa-arrow-left"></i> Back to Public Storefront
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── MAIN DASHBOARD APPLICATION (Shown when Authenticated) ─── -->
+  <div id="app-view" class="app-layout" style="display: none;">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-avatar">
+          <img src="/images/logo.jpg" alt="Logo" onerror="this.src='/images/sn_logo.jpg'" />
+        </div>
+        <div class="brand-info">
+          <span class="brand-name">Sabnam Studio</span>
+          <span class="brand-role"><i class="fa-solid fa-shield-halved"></i> Admin Control</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Store Operations</div>
+        <a href="#overview" class="nav-item active" data-tab="overview">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="#products" class="nav-item" data-tab="products">
+          <i class="fa-solid fa-box-open"></i>
+          <span>Products Catalog</span>
+          <span class="badge-count" id="sidebar-product-count">0</span>
+        </a>
+        <button type="button" class="nav-item nav-btn-action" id="sidebar-add-btn">
+          <i class="fa-solid fa-circle-plus"></i>
+          <span>+ Add New Product</span>
+        </button>
+
+        <div class="nav-section-title">Public Storefront</div>
+        <a href="/" target="_blank" class="nav-item">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>View Live Website</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-pill">
+          <div class="user-avatar-circle"><i class="fa-solid fa-user-check"></i></div>
+          <div class="user-meta">
+            <span class="user-id" id="sidebar-user-id">Sabnam@AVM1</span>
+            <span class="user-status"><span class="status-dot"></span> Online</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout" id="logout-btn" title="Sign out">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="admin-main">
+      
+      <!-- Top Navigation Bar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button type="button" class="btn-sidebar-toggle" id="sidebar-toggle" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="topbar-title-wrap">
+            <h2 class="topbar-page-title" id="page-title">Products Management</h2>
+            <span class="topbar-breadcrumb">Sabnam Studio / Catalog Control</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a href="/" target="_blank" class="btn btn-store-preview" title="Open live public site">
+            <i class="fa-solid fa-store"></i> Live Storefront
+          </a>
+          <button type="button" class="btn btn-primary" id="topbar-add-btn">
+            <i class="fa-solid fa-plus"></i> Add Product
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Scrollable Body -->
+      <main class="admin-content">
+        
+        <!-- Quick Stats Cards Row -->
+        <section class="stats-grid" id="stats-section">
+          <div class="stat-card stat-total">
+            <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Total Products</span>
+              <h3 class="stat-value" id="stat-total">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card stat-active">
+            <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Active / Published</span>
+              <h3 class="stat-value" id="stat-active">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card stat-disabled">
+            <div class="stat-icon"><i class="fa-solid fa-eye-slash"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Disabled / Hidden</span>
+              <h3 class="stat-value" id="stat-disabled">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-card stat-featured">
+            <div class="stat-icon"><i class="fa-solid fa-star"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Featured Pieces</span>
+              <h3 class="stat-value" id="stat-featured">0</h3>
+            </div>
+          </div>
+        </section>
+
+        <!-- Products Management Panel -->
+        <section class="panel-card">
+          <div class="panel-header">
+            <div class="panel-header-left">
+              <h3 class="panel-title">Product Catalog</h3>
+              <p class="panel-subtitle">Manage prices, descriptions, images, availability, and display order</p>
+            </div>
+            <div class="panel-header-right">
+              <button type="button" class="btn btn-outline" id="refresh-btn" title="Refresh products list">
+                <i class="fa-solid fa-arrows-rotate"></i> Refresh
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter & Search Controls Toolbar -->
+          <div class="catalog-toolbar">
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="search-input" class="search-input" placeholder="Search by name, category, or description..." />
+              <button type="button" id="clear-search-btn" class="clear-search-btn" style="display: none;">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <div class="filter-controls">
+              <select id="filter-category" class="form-select">
+                <option value="all">All Categories</option>
+              </select>
+
+              <select id="filter-status" class="form-select">
+                <option value="all">All Status</option>
+                <option value="active">Active (Visible)</option>
+                <option value="disabled">Disabled (Hidden)</option>
+                <option value="featured">Featured Only</option>
+              </select>
+
+              <select id="filter-stock" class="form-select">
+                <option value="all">All Stock Status</option>
+                <option value="in_stock">In Stock</option>
+                <option value="custom_only">Custom / Made to Order</option>
+                <option value="out_of_stock">Out of Stock</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loading-indicator" class="loading-state" style="display: none;">
+            <i class="fa-solid fa-circle-notch fa-spin"></i>
+            <p>Loading products from storage...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-icon"><i class="fa-solid fa-box-open"></i></div>
+            <h4>No products found</h4>
+            <p id="empty-msg">No products match your search or filter criteria.</p>
+            <button type="button" class="btn btn-primary" id="empty-add-btn">+ Add a Product</button>
+          </div>
+
+          <!-- Products Table View -->
+          <div class="table-responsive" id="table-wrap">
+            <table class="admin-table" id="products-table">
+              <thead>
+                <tr>
+                  <th style="width: 70px;">Order</th>
+                  <th style="width: 90px;">Image</th>
+                  <th>Product Details</th>
+                  <th style="width: 140px;">Category</th>
+                  <th style="width: 120px;">Price</th>
+                  <th style="width: 130px;">Stock State</th>
+                  <th style="width: 110px;">Visible?</th>
+                  <th style="width: 140px; text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ─── ADD / EDIT PRODUCT MODAL ──────────────────────────────── -->
+  <div class="modal-backdrop" id="product-modal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <div class="modal-dialog modal-dialog-lg">
+      <div class="modal-content">
+        
+        <div class="modal-header">
+          <div class="modal-header-text">
+            <h3 class="modal-title" id="modal-heading">Add New Product</h3>
+            <p class="modal-subtitle">Fill in the product details to update your storefront</p>
+          </div>
+          <button type="button" class="modal-close-btn" id="close-modal-btn" aria-label="Close modal">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <form id="product-form" class="modal-form" novalidate>
+          <input type="hidden" id="form-product-id" name="id" />
+
+          <div class="modal-body-scroll">
+            <div id="form-error" class="alert-banner alert-error" style="display: none;"></div>
+
+            <div class="form-grid-2">
+              
+              <!-- Left Column: Primary Details -->
+              <div class="form-col">
+                <div class="form-group">
+                  <label for="form-name" class="required">Product Name</label>
+                  <input type="text" id="form-name" class="form-input" placeholder="e.g. Burgundy Crochet Tote" required />
+                </div>
+
+                <div class="form-grid-2-inner">
+                  <div class="form-group">
+                    <label for="form-category" class="required">Category</label>
+                    <input type="text" id="form-category" list="category-datalist" class="form-input" placeholder="e.g. Bags, Anime, Keychains" required />
+                    <datalist id="category-datalist">
+                      <option value="Bags">
+                      <option value="Keychains">
+                      <option value="Hair Accessories">
+                      <option value="Anime">
+                      <option value="Decor">
+                      <option value="Embroidery">
+                      <option value="Embroidery & Keepsakes">
+                      <option value="Islamic Art">
+                    </datalist>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="form-price" class="required">Price (₹)</label>
+                    <div class="price-input-group">
+                      <span class="price-symbol">₹</span>
+                      <input type="number" id="form-price" class="form-input" placeholder="850" min="0" step="1" required />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-grid-2-inner">
+                  <div class="form-group">
+                    <label for="form-stock">Stock / Order Type</label>
+                    <select id="form-stock" class="form-select">
+                      <option value="in_stock">In Stock (Ready to Ship)</option>
+                      <option value="custom_only">Custom / Made to Order</option>
+                      <option value="pre_order">Pre-Order</option>
+                      <option value="out_of_stock">Out of Stock</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="form-display-order">Display Order</label>
+                    <input type="number" id="form-display-order" class="form-input" placeholder="1" min="1" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="form-badge">Badge / Sticker (Optional)</label>
+                  <input type="text" id="form-badge" class="form-input" placeholder="e.g. bestseller ♡, fan fav ♡, new arrival 🌹" />
+                </div>
+
+                <div class="form-group">
+                  <label for="form-tagline">Short Tagline</label>
+                  <input type="text" id="form-tagline" class="form-input" placeholder="e.g. handmade with love ♡" />
+                </div>
+
+                <div class="form-group">
+                  <label for="form-desc">Full Description</label>
+                  <textarea id="form-desc" class="form-textarea" rows="4" placeholder="Tell customers about the craftsmanship, materials, styling..."></textarea>
+                </div>
+              </div>
+
+              <!-- Right Column: Image Management & Toggles -->
+              <div class="form-col">
+                <div class="form-group">
+                  <label class="required">Product Image</label>
+                  
+                  <!-- Image Dropzone -->
+                  <div class="image-dropzone" id="image-dropzone">
+                    <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp,image/gif" style="display: none;" />
+                    
+                    <div id="dropzone-empty" class="dropzone-empty">
+                      <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+                      <p class="dropzone-text"><strong>Click to upload</strong> or drag & drop</p>
+                      <span class="dropzone-hint">JPG, PNG, WEBP, GIF up to 10MB</span>
+                    </div>
+
+                    <div id="dropzone-preview" class="dropzone-preview" style="display: none;">
+                      <img id="image-preview-img" src="" alt="Product preview" />
+                      <div class="preview-overlay">
+                        <button type="button" class="btn-change-img" id="change-img-btn" title="Upload a different photo">
+                          <i class="fa-solid fa-camera"></i> Change Photo
+                        </button>
+                        <button type="button" class="btn-remove-img" id="remove-img-btn" title="Remove photo">
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Alternative: Image URL path input -->
+                  <div class="image-url-row">
+                    <span class="url-label">Or Image Path:</span>
+                    <input type="text" id="form-image-url" class="form-input form-input-sm" placeholder="images/... or /uploads/..." />
+                  </div>
+                </div>
+
+                <!-- Toggles Card -->
+                <div class="toggles-card">
+                  <div class="toggle-row">
+                    <div class="toggle-info">
+                      <span class="toggle-title">Visible on Website</span>
+                      <span class="toggle-desc">Enable to display this item on the public store</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="form-available" checked />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="toggle-row">
+                    <div class="toggle-info">
+                      <span class="toggle-title">Featured Piece</span>
+                      <span class="toggle-desc">Highlight in hero & recommendations</span>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="form-featured" />
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Live Preview Card -->
+                <div class="preview-mini-card">
+                  <span class="preview-mini-label">Storefront Card Preview:</span>
+                  <div class="mini-card-inner">
+                    <img id="mini-card-img" src="/images/logo.jpg" alt="Preview" onerror="this.src='/images/sn_logo.jpg'" />
+                    <div class="mini-card-info">
+                      <span class="mini-card-badge" id="mini-card-badge">bestseller ♡</span>
+                      <h4 class="mini-card-name" id="mini-card-name">Product Name</h4>
+                      <span class="mini-card-price" id="mini-card-price">₹0</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ghost" id="cancel-modal-btn">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="save-product-btn">
+              <span class="btn-text"><i class="fa-solid fa-check"></i> Save Product</span>
+              <span class="btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Saving...</span>
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── DELETE CONFIRMATION MODAL ─────────────────────────────── -->
+  <div class="modal-backdrop" id="delete-modal" style="display: none;" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-sm">
+      <div class="modal-content">
+        <div class="modal-header modal-header-danger">
+          <div class="danger-icon-circle"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <h3 class="modal-title">Delete Product?</h3>
+          <button type="button" class="modal-close-btn" id="close-delete-modal-btn">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to permanently delete <strong id="delete-product-name">this product</strong>?</p>
+          <p class="modal-warning-text">This will remove the product from the public catalog immediately.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-ghost" id="cancel-delete-btn">Cancel</button>
+          <button type="button" class="btn btn-danger" id="confirm-delete-btn">
+            <span class="btn-text"><i class="fa-solid fa-trash-can"></i> Yes, Delete</span>
+            <span class="btn-spinner" style="display: none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Deleting...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/admin/admin.js"></script>
+</body>
+</html>
