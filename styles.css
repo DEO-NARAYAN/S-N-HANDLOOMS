@@ -1052,10 +1052,11 @@ input, textarea, select {
 }
 
 .product-price {
-  font-family: var(--font-display);
+  font-family: 'Plus Jakarta Sans', 'DM Sans', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 1.2rem;
   font-weight: 700;
   color: var(--brown);
+  letter-spacing: -0.01em;
 }
 
 /* â”€â”€â”€ 10. PRODUCT MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
@@ -1191,10 +1192,11 @@ input, textarea, select {
 }
 
 .modal-price {
-  font-family: var(--font-display);
+  font-family: 'Plus Jakarta Sans', 'DM Sans', 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
   font-size: 1.8rem;
   font-weight: 700;
   color: var(--terracotta);
+  letter-spacing: -0.01em;
 }
 
 .modal-hearts {

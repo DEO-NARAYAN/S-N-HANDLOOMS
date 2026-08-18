@@ -269,7 +269,59 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchAndHydrateProducts();
 });
 
-/* ─── DYNAMIC BACKEND HYDRATION ────────────────────────────────── */
+/* ─── DYNAMIC BACKEND HYDRATION & WHATSAPP ORDER BUILDER ───────── */
+function buildWhatsAppOrderUrl(prod) {
+  let imgPath = prod.img || prod.image || 'images/hero_products_collage.jpg';
+  let fullImgUrl = '';
+  
+  if (imgPath.startsWith('http://') || imgPath.startsWith('https://')) {
+    fullImgUrl = imgPath;
+  } else {
+    const cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
+    const origin = (window.location.origin && !window.location.origin.includes('localhost') && !window.location.origin.includes('127.0.0.1'))
+      ? window.location.origin
+      : 'https://s-n-handlooms.vercel.app';
+    fullImgUrl = `${origin}/${cleanPath}`;
+  }
+
+  const name = prod.name || 'Handmade Item';
+  const price = prod.price || '₹0';
+  const category = prod.category || 'Handcrafted';
+
+  const messageText = [
+    `🌸 *SN Handmade — Order Request* 🌸`,
+    ``,
+    `🎀 *Product:* ${name}`,
+    `💰 *Price:* ${price}`,
+    `🏷️ *Category:* ${category}`,
+    `📸 *Photo Preview:* ${fullImgUrl}`,
+    ``,
+    `Hi Sabnam! ♡ I would love to order this handmade piece. Please share availability & payment details! ✨`
+  ].join('\n');
+
+  return `https://api.whatsapp.com/send/?phone=917074669941&text=${encodeURIComponent(messageText)}&type=phone_number&app_absent=0`;
+}
+
+// Global click listener for all Order buttons across the storefront
+document.addEventListener('click', (e) => {
+  const orderBtn = e.target.closest('.btn-order-sm');
+  if (!orderBtn) return;
+  const card = orderBtn.closest('.product-card');
+  if (card) {
+    e.preventDefault();
+    e.stopPropagation();
+    const strId = card.id.replace('product-card-', '');
+    const prod = PRODUCTS[strId] || {
+      name: card.dataset.name || card.querySelector('.product-name')?.textContent || 'Handmade Piece',
+      price: card.dataset.price || card.querySelector('.product-price')?.textContent || '₹0',
+      category: card.dataset.category || card.querySelector('.product-category-tag')?.textContent || 'Handcrafted',
+      img: card.querySelector('img')?.getAttribute('src') || 'images/hero_products_collage.jpg'
+    };
+    const targetUrl = buildWhatsAppOrderUrl(prod);
+    window.open(targetUrl, '_blank', 'noopener,noreferrer');
+  }
+});
+
 async function fetchAndHydrateProducts() {
   function renderList(productsList) {
     if (!Array.isArray(productsList) || productsList.length === 0) return;
@@ -320,7 +372,7 @@ async function fetchAndHydrateProducts() {
       card.dataset.desc = prod.desc || '';
       card.id = `product-card-${strId}`;
 
-      const waMsg = encodeURIComponent(`Hi Sabnam! ♡ I'd love to order: ${prod.name} (${prod.price}). Please share the details! ✨`);
+      const waUrl = buildWhatsAppOrderUrl(prodData);
 
       card.innerHTML = `
         <div class="product-img-wrap">
@@ -339,7 +391,7 @@ async function fetchAndHydrateProducts() {
           <p class="product-tagline">${prod.tagline || 'handmade with love ♡'}</p>
           <div class="product-footer">
             <span class="product-price">${prod.price}</span>
-            <a href="https://wa.me/917074669941?text=${waMsg}" target="_blank" rel="noopener" class="btn btn-order-sm" aria-label="Order ${prod.name} on WhatsApp">Order ♡</a>
+            <a href="${waUrl}" target="_blank" rel="noopener" class="btn btn-order-sm" aria-label="Order ${prod.name} on WhatsApp">Order ♡</a>
           </div>
         </div>
       `;
@@ -654,8 +706,10 @@ function openModal(productId) {
 
   // Update modal order buttons
   const waBtn    = document.getElementById('modal-wa-btn');
-  const waMsg    = encodeURIComponent(`Hi Sabnam! ♡ I'd love to order: ${product.name} (${product.price}). Please share the details! ✨`);
-  if (waBtn) waBtn.href = `https://wa.me/917074669941?text=${waMsg}`;
+  if (waBtn) {
+    waBtn.href = buildWhatsAppOrderUrl(product);
+    waBtn.target = '_blank';
+  }
 
   const orderBtn = document.getElementById('modal-order-btn');
   if (orderBtn) orderBtn.href = `https://www.instagram.com/sn.hand.made`;
@@ -781,10 +835,10 @@ function wizardSend() {
   // Update preview
   document.getElementById('success-preview').textContent = msg;
 
-  // Build WhatsApp link (replace with actual phone number)
-  const phone     = '917074669941'; // Replace with actual WhatsApp number
+  // Build WhatsApp link
+  const phone     = '917074669941';
   const waMsg     = encodeURIComponent(msg);
-  const waLink    = `https://wa.me/${phone}?text=${waMsg}`;
+  const waLink    = `https://api.whatsapp.com/send/?phone=${phone}&text=${waMsg}&type=phone_number&app_absent=0`;
   document.getElementById('whatsapp-send-btn').href = waLink;
 
   // Advance to step 4
@@ -798,7 +852,7 @@ function wizardSend() {
  */
 function buildOrderMessage() {
   const lines = [
-    `🌸 Custom Order Request — Sabnam Handlooms & Arts`,
+    `🌸 Custom Order Request — SN Handmade`,
     `━━━━━━━━━━━━━━━━━━━━`,
     ``,
     `📦 Product: ${wizardState.productType || 'Not specified'}`,
@@ -813,7 +867,7 @@ function buildOrderMessage() {
     `📍 Location: ${wizardState.location || 'Not specified'}`,
     `⏰ Timeline: ${wizardState.urgency || 'Flexible'}`,
     ``,
-    `Made with love using the order wizard on sabnamhandlooms.com ♡`,
+    `Made with love using the custom order wizard ♡`,
   ];
 
   return lines.join('\n');
