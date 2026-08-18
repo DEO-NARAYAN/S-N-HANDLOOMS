@@ -1,3 +1,19 @@
+
+function sanitizePrice(val, priceRaw) {
+  let num = priceRaw;
+  if (num === undefined || num === null || isNaN(num) || num === 0) {
+    if (typeof val === 'number') {
+      num = val;
+    } else {
+      const match = String(val || '').match(/[\d.]+/);
+      num = match ? parseFloat(match[0]) : 0;
+    }
+  }
+  const isPlus = String(val || '').includes('+');
+  const cleanNum = (num && !isNaN(num)) ? (Number.isInteger(Number(num)) ? parseInt(num, 10) : num) : 0;
+  return `₹${cleanNum}${isPlus ? '+' : ''}`;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    Sabnam Handlooms & Arts — script.js
    Cozy Whimsical Studio · Gen-Z Aesthetic
@@ -341,10 +357,11 @@ async function fetchAndHydrateProducts() {
         imgPath = imgPath.substring(1);
       }
 
+      const cleanPrice = sanitizePrice(prod.price, prod.priceRaw);
       const prodData = {
         name:     prod.name,
         category: prod.category || 'General',
-        price:    prod.price || '₹0',
+        price:    cleanPrice,
         badge:    prod.badge || '',
         tagline:  prod.tagline || 'handmade with love ♡',
         img:      imgPath,

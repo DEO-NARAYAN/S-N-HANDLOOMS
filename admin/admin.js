@@ -5,6 +5,22 @@
 
 'use strict';
 
+function sanitizePrice(val, priceRaw) {
+  let num = priceRaw;
+  if (num === undefined || num === null || isNaN(num) || num === 0) {
+    if (typeof val === 'number') {
+      num = val;
+    } else {
+      const match = String(val || '').match(/[\d.]+/);
+      num = match ? parseFloat(match[0]) : 0;
+    }
+  }
+  const isPlus = String(val || '').includes('+');
+  const cleanNum = (num && !isNaN(num)) ? (Number.isInteger(Number(num)) ? parseInt(num, 10) : num) : 0;
+  return `₹${cleanNum}${isPlus ? '+' : ''}`;
+}
+
+
 const DEFAULT_PRODUCTS = [
   {
     "id": "prod-1",
@@ -627,13 +643,13 @@ const dom = {
   toastContainer: document.getElementById('toast-container')
 };
 
-// â”€â”€â”€ Initialize Application â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   checkAuthentication();
 });
 
-// â”€â”€â”€ Event Listeners Setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 function setupEventListeners() {
   // Login Form
   dom.loginForm.addEventListener('submit', handleLogin);
@@ -761,7 +777,7 @@ function setupEventListeners() {
   });
 }
 
-// â”€â”€â”€ Authentication Functions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 async function checkAuthentication() {
   const localSession = sessionStorage.getItem('sabnam_admin_session');
   if (localSession === 'authenticated') {
@@ -875,7 +891,7 @@ function togglePasswordVisibility() {
     : '<i class="fa-regular fa-eye"></i>';
 }
 
-// â”€â”€â”€ Products Data Fetching â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 async function loadProducts(isRefresh = false) {
   dom.loadingIndicator.style.display = 'flex';
   dom.emptyState.style.display = 'none';
@@ -911,8 +927,17 @@ async function loadProducts(isRefresh = false) {
 
   if (!loaded || !state.products || state.products.length === 0) {
     state.products = [...DEFAULT_PRODUCTS];
-    localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
   }
+
+  // Sanitize all product prices to permanently eliminate any encoding bugs
+  state.products.forEach(p => {
+    p.price = sanitizePrice(p.price, p.priceRaw);
+    if (!p.priceRaw) {
+      const match = String(p.price).match(/[\d.]+/);
+      p.priceRaw = match ? parseFloat(match[0]) : 0;
+    }
+  });
+  localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
 
   // Extract categories
   state.categories = new Set();
@@ -965,7 +990,7 @@ function populateCategoryFilter() {
   }
 }
 
-// â”€â”€â”€ Table Rendering & Filtering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 function renderProductsTable() {
   let filtered = [...state.products];
 
@@ -1031,8 +1056,8 @@ function renderProductsTable() {
         <div class="order-cell">
           <span class="order-number">${prod.displayOrder || (index + 1)}</span>
           <div class="order-btn-col">
-            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', -1)" title="Move up">â–²</button>
-            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', 1)" title="Move down">â–¼</button>
+            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', -1)" title="Move up"><i class="fa-solid fa-chevron-up"></i></button>
+            <button type="button" class="btn-order-arrow" onclick="moveProductOrder('${prod.id}', 1)" title="Move down"><i class="fa-solid fa-chevron-down"></i></button>
           </div>
         </div>
       </td>
@@ -1043,7 +1068,7 @@ function renderProductsTable() {
         <div class="product-cell-details">
           <div class="product-cell-title">
             <span>${escapeHtml(prod.name)}</span>
-            ${prod.featured ? '<span class="badge-featured">â˜… Featured</span>' : ''}
+            ${prod.featured ? '<span class="badge-featured">★ Featured</span>' : ''}
             ${prod.badge ? `<span style="font-size:0.7rem; color:var(--terracotta); font-weight:700;">${escapeHtml(prod.badge)}</span>` : ''}
           </div>
           <span class="product-cell-tagline">${escapeHtml(prod.tagline || '')}</span>
@@ -1054,7 +1079,7 @@ function renderProductsTable() {
         <span class="pill-category">${escapeHtml(prod.category || 'General')}</span>
       </td>
       <td>
-        <span class="product-cell-price">${escapeHtml(prod.price || 'â‚¹0')}</span>
+        <span class="product-cell-price">${escapeHtml(prod.price || '₹0')}</span>
       </td>
       <td>
         <span class="pill-stock ${stockInfo.class}">
@@ -1098,7 +1123,7 @@ function getValidImageUrl(path) {
   return `/images/${path}`;
 }
 
-// â”€â”€â”€ Add / Edit Product Modal Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 function openProductModal(productId = null) {
   dom.formError.style.display = 'none';
   state.editingProductId = productId;
@@ -1154,16 +1179,16 @@ function closeProductModal() {
 function updateMiniCardPreview() {
   const name = dom.formName.value.trim() || 'Product Name';
   const priceVal = dom.formPrice.value || '0';
-  const badge = dom.formBadge.value.trim() || 'bestseller â™¡';
+  const badge = dom.formBadge.value.trim() || 'bestseller ♡';
   const imgUrl = state.uploadedImageUrl || dom.formImageUrl.value.trim() || '../images/logo.jpg';
 
   dom.miniCardName.textContent = name;
-  dom.miniCardPrice.textContent = `â‚¹${priceVal}`;
+  dom.miniCardPrice.textContent = `₹${priceVal}`;
   dom.miniCardBadge.textContent = badge;
   dom.miniCardImg.src = getValidImageUrl(imgUrl);
 }
 
-// â”€â”€â”€ Image Upload Handling â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 async function uploadImageFile(file) {
   if (!file) return;
 
@@ -1226,7 +1251,7 @@ function clearImagePreview() {
   updateMiniCardPreview();
 }
 
-// â”€â”€â”€ Product Save / Create / Update â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 async function handleSaveProduct(e) {
   e.preventDefault();
   dom.formError.style.display = 'none';
@@ -1265,7 +1290,7 @@ async function handleSaveProduct(e) {
   const payload = {
     name,
     category,
-    price: `â‚¹${priceRaw}`,
+    price: `₹${priceRaw}`,
     priceRaw,
     stock,
     displayOrder,
@@ -1323,7 +1348,7 @@ async function handleSaveProduct(e) {
   } finally {
     localStorage.setItem('sabnam_live_products', JSON.stringify(state.products));
     setBtnLoading(dom.saveProductBtn, false);
-    showToast(state.editingProductId ? 'Product updated successfully! âœ¨' : 'New product published! ðŸŒ¸', 'success');
+    showToast(state.editingProductId ? 'Product updated successfully! ✨' : 'New product published! 🌸', 'success');
     closeProductModal();
     updateStats();
     renderProductsTable();
@@ -1335,7 +1360,7 @@ function showFormError(msg) {
   dom.formError.style.display = 'flex';
 }
 
-// â”€â”€â”€ Quick Toggle Availability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 window.toggleProductAvailability = async function(productId) {
   const p = state.products.find(x => x.id === productId);
   if (p) {
@@ -1351,7 +1376,7 @@ window.toggleProductAvailability = async function(productId) {
   } catch (err) {}
 };
 
-// â”€â”€â”€ Move Product Order â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 window.moveProductOrder = async function(productId, direction) {
   const sorted = [...state.products].sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
   const idx = sorted.findIndex(p => p.id === productId);
@@ -1383,7 +1408,7 @@ window.moveProductOrder = async function(productId, direction) {
   } catch (err) {}
 };
 
-// â”€â”€â”€ Delete Product Logic â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 window.openDeleteModal = function(productId) {
   const prod = state.products.find(p => p.id === productId);
   if (!prod) return;
@@ -1421,7 +1446,7 @@ async function confirmDeleteProduct() {
   setBtnLoading(dom.confirmDeleteBtn, false);
 }
 
-// â”€â”€â”€ Toast Notifications â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 function showToast(message, type = 'info') {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
@@ -1446,7 +1471,7 @@ function showToast(message, type = 'info') {
   }, 3500);
 }
 
-// â”€â”€â”€ Utility Helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// -----------------------------------------------------------------
 function setBtnLoading(btn, isLoading) {
   if (!btn) return;
   const textSpan = btn.querySelector('.btn-text');

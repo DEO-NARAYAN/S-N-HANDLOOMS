@@ -1,11 +1,11 @@
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   S N HAND MADE â€” styles.css
+/* ---
+   S N HAND MADE ---
    Soft Pink Artisan Studio Â· Handmade Aesthetic
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ---*/
 
-/* â”€â”€â”€ 1. CSS CUSTOM PROPERTIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 :root {
-  /* Brand Palette â€” Logo Pink Theme */
+  /* Brand Palette ---*/
   --cream:        #FDF4F7;
   --cream-dark:   #F5E4EA;
   --terracotta:   #E8769A;
@@ -61,7 +61,7 @@
   --t-slow:  0.6s;
 }
 
-/* â”€â”€â”€ 2. RESET & BASE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -115,7 +115,7 @@ input, textarea, select {
   font-size: 1rem;
 }
 
-/* â”€â”€â”€ 3. TYPOGRAPHY HELPERS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .script-font   { font-family: var(--font-script); }
 .display-font  { font-family: var(--font-display); }
 
@@ -150,7 +150,7 @@ input, textarea, select {
   line-height: 1.8;
 }
 
-/* â”€â”€â”€ 4. BUTTONS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .btn {
   display: inline-flex;
   align-items: center;
@@ -244,7 +244,7 @@ input, textarea, select {
   box-shadow: var(--shadow-terra);
 }
 
-/* â”€â”€â”€ 5. FLOATING DOODLE LAYER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .doodle-layer {
   position: fixed;
   inset: 0;
@@ -275,7 +275,7 @@ input, textarea, select {
   66%       { transform: scale(var(--s)) translateY(6px) rotate(-3deg); }
 }
 
-/* â”€â”€â”€ 6. NAVBAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .navbar {
   position: fixed;
   top: 0;
@@ -423,7 +423,7 @@ input, textarea, select {
   transform: translateY(-7.5px) rotate(-45deg);
 }
 
-/* â”€â”€â”€ 7. HERO SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .hero {
   min-height: 100svh;
   background: var(--grad-hero);
@@ -796,7 +796,7 @@ input, textarea, select {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* â”€â”€â”€ 8. MARQUEE BAND â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .marquee-band {
   background: var(--brown);
   color: var(--cream);
@@ -832,7 +832,7 @@ input, textarea, select {
   animation-play-state: paused;
 }
 
-/* â”€â”€â”€ 9. PRODUCT CATALOG SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .products-section {
   padding: var(--space-2xl) 0;
   background: var(--cream);
@@ -1059,7 +1059,7 @@ input, textarea, select {
   letter-spacing: -0.01em;
 }
 
-/* â”€â”€â”€ 10. PRODUCT MODAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1225,7 +1225,7 @@ input, textarea, select {
   text-align: center;
 }
 
-/* â”€â”€â”€ 11. CUSTOM ORDER WIZARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .customizer-section {
   padding: var(--space-2xl) 0;
   background: linear-gradient(135deg, #FDE8EF 0%, #FDF4F7 50%, #F5E4EA 100%);
@@ -1515,7 +1515,7 @@ input, textarea, select {
   width: 100%;
 }
 
-/* â”€â”€â”€ 12. BRAND STORY SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .story-section {
   padding: var(--space-2xl) 0;
   background: var(--cream);
@@ -1652,7 +1652,7 @@ input, textarea, select {
   line-height: 1.5;
 }
 
-/* â”€â”€â”€ 13. INSTAGRAM SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .instagram-section {
   padding: var(--space-2xl) 0;
   background: linear-gradient(180deg, #FDF4F7 0%, #FDE8EF 100%);
@@ -1719,7 +1719,7 @@ input, textarea, select {
 
 .insta-cta { text-align: center; }
 
-/* â”€â”€â”€ 14. FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .footer {
   background: var(--brown);
   color: var(--cream);
@@ -1890,7 +1890,7 @@ input, textarea, select {
   color: var(--terra-light);
 }
 
-/* â”€â”€â”€ 15. TOAST NOTIFICATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .toast {
   position: fixed;
   bottom: 2rem;
@@ -1927,7 +1927,7 @@ input, textarea, select {
   50%       { transform: scale(1.3); }
 }
 
-/* â”€â”€â”€ 16. BACK TO TOP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .back-to-top {
   position: fixed;
   bottom: 2rem;
@@ -1962,7 +1962,7 @@ input, textarea, select {
   box-shadow: 0 12px 36px rgba(232,118,154,0.5);
 }
 
-/* â”€â”€â”€ 17. HEART PARTICLE ANIMATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .heart-particle {
   position: fixed;
   pointer-events: none;
@@ -1978,7 +1978,7 @@ input, textarea, select {
   100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--tr)); }
 }
 
-/* â”€â”€â”€ 18. SCROLL REVEAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -2169,12 +2169,12 @@ input, textarea, select {
 }
 
 
-/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   19. RESPONSIVE â€” Mobile-First, Complete Overhaul
+/* ---
+   19. RESPONSIVE ---
    Breakpoints: 1200 Â· 1024 Â· 900 Â· 768 Â· 600 Â· 480 Â· 380
-   â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
+   ---*/
 
-/* â”€â”€ 1200px: Large tablets / small laptops â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 1200px) {
   .hero-content {
     gap: 2rem;
@@ -2187,7 +2187,7 @@ input, textarea, select {
   .footer-social-col { grid-column: span 3; }
 }
 
-/* â”€â”€ 1024px: Tablet landscape â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 1024px) {
   :root {
     --space-2xl: 5rem;
@@ -2228,7 +2228,7 @@ input, textarea, select {
   .footer-brand        { grid-column: span 2; }
 }
 
-/* â”€â”€ 900px: Tablet portrait â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 900px) {
   .product-grid        { grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
   .insta-grid {
@@ -2238,14 +2238,14 @@ input, textarea, select {
   .insta-tile-tall     { grid-row: span 2; }
 }
 
-/* â”€â”€ 768px: Mobile landscape / small tablet â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 768px) {
   :root {
     --space-2xl: 3.5rem;
     --space-xl:  2rem;
   }
 
-  /* â”€ NAVBAR (full-screen drawer) â”€ */
+  /* ---*/
   .navbar              { padding: 0.75rem 0; }
 
   .nav-links {
@@ -2303,7 +2303,7 @@ input, textarea, select {
     right: 1.25rem;
   }
 
-  /* â”€ HERO â”€ */
+  /* ---*/
   .hero {
     padding: 5.5rem 1.25rem 3rem;
     min-height: 100svh;
@@ -2336,11 +2336,11 @@ input, textarea, select {
 
   .scroll-indicator    { display: none; }
 
-  /* â”€ MARQUEE â”€ */
+  /* ---*/
   .marquee-band        { padding: 0.65rem 0; }
   .marquee-track span  { font-size: 0.9rem; padding: 0 1.75rem; }
 
-  /* â”€ SECTION LAYOUT â”€ */
+  /* ---*/
   .section-container   { padding: 0 1.25rem; }
   .section-title       { font-size: clamp(1.6rem, 6vw, 2.4rem); }
   .section-subtitle    { font-size: 0.93rem; }
@@ -2349,7 +2349,7 @@ input, textarea, select {
   .story-section       { padding: 3rem 0; }
   .instagram-section   { padding: 3rem 0; }
 
-  /* â”€ FILTER BAR â”€ */
+  /* ---*/
   .filter-bar {
     gap: 0.45rem;
     overflow-x: auto;
@@ -2371,7 +2371,7 @@ input, textarea, select {
     min-height: 40px;
   }
 
-  /* â”€ PRODUCT GRID â”€ */
+  /* ---*/
   .product-grid        { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
   .product-img-wrap    { aspect-ratio: 3/4; }
   .product-info        { padding: 0.75rem 0.85rem 0.85rem; gap: 0.2rem; }
@@ -2386,7 +2386,7 @@ input, textarea, select {
     .product-hover-overlay { display: none; }
   }
 
-  /* â”€ MODAL â”€ */
+  /* ---*/
   .modal-overlay       { padding: 0; align-items: flex-end; }
   .modal-card {
     grid-template-columns: 1fr;
@@ -2415,7 +2415,7 @@ input, textarea, select {
     margin: 0.85rem auto -0.5rem;
   }
 
-  /* â”€ WIZARD â”€ */
+  /* ---*/
   .wizard-wrapper      { max-width: 100%; }
 
   .wizard-steps {
@@ -2458,7 +2458,7 @@ input, textarea, select {
   .success-actions     { flex-direction: column; }
   .success-actions .btn { width: 100%; justify-content: center; min-height: 50px; }
 
-  /* â”€ STORY â”€ */
+  /* ---*/
   .story-container     { grid-template-columns: 1fr; gap: 2.5rem; }
   .story-img-stack     { height: 280px; max-width: 100%; }
   .story-img-main      { width: 75%; height: 90%; }
@@ -2468,7 +2468,7 @@ input, textarea, select {
   .story-highlights    { text-align: left; }
   .highlight-item      { text-align: left; }
 
-  /* â”€ INSTAGRAM GRID â”€ */
+  /* ---*/
   .insta-grid {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
@@ -2484,7 +2484,7 @@ input, textarea, select {
     .insta-overlay     { opacity: 1; background: rgba(61,31,42,0.35); }
   }
 
-  /* â”€ FOOTER â”€ */
+  /* ---*/
   .footer              { padding: 3rem 0 0; }
   .footer-container    { grid-template-columns: 1fr; gap: 2rem; }
   .footer-brand        { grid-column: 1; text-align: center; }
@@ -2505,20 +2505,20 @@ input, textarea, select {
     font-size: 0.78rem;
   }
 
-  /* â”€ BUTTONS (bigger touch targets) â”€ */
+  /* ---*/
   .btn                 { min-height: 48px; }
   .btn-primary,
   .btn-outline         { padding: 0.8rem 1.5rem; font-size: 0.92rem; }
 
-  /* â”€ BACK TO TOP / TOAST â”€ */
+  /* ---*/
   .back-to-top         { bottom: 1.25rem; right: 1.25rem; width: 44px; height: 44px; font-size: 0.9rem; }
   .toast               { width: calc(100% - 2.5rem); max-width: 380px; font-size: 0.88rem; }
 
-  /* â”€ WISHLIST BUTTON â”€ */
+  /* ---*/
   .product-wishlist    { width: 40px; height: 40px; font-size: 1.05rem; }
 }
 
-/* â”€â”€ 600px: Larger phones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 600px) {
   .product-grid        { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
   .product-type-grid   { grid-template-columns: repeat(3, 1fr); }
@@ -2528,14 +2528,14 @@ input, textarea, select {
   .card-sec-1          { width: 37%; }
 }
 
-/* â”€â”€ 480px: Standard phones â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 480px) {
   :root {
     --space-2xl: 3rem;
     --space-xl:  1.75rem;
   }
 
-  /* â”€ HERO â”€ */
+  /* ---*/
   .hero                { padding: 5rem 1rem 2.5rem; }
   .hero-title          { font-size: clamp(1.9rem, 9vw, 2.6rem); }
   .hero-title-line3    { font-size: 0.78em; }
@@ -2555,13 +2555,13 @@ input, textarea, select {
 
   .sticker-1, .sticker-2 { font-size: 0.82rem; padding: 0.25rem 0.7rem; }
 
-  /* â”€ SECTION â”€ */
+  /* ---*/
   .section-title       { font-size: 1.65rem; }
   .section-eyebrow     { font-size: 0.95rem; }
   .section-header      { margin-bottom: 2rem; }
   .section-container   { padding: 0 1rem; }
 
-  /* â”€ PRODUCT GRID â”€ */
+  /* ---*/
   .product-grid        { gap: 0.65rem; }
   .product-name        { font-size: 0.82rem; }
   .product-category-tag { font-size: 0.65rem; }
@@ -2572,17 +2572,17 @@ input, textarea, select {
   .product-badge       { font-size: 0.66rem; padding: 0.2rem 0.55rem; }
   .product-wishlist    { width: 34px; height: 34px; top: 0.5rem; right: 0.5rem; font-size: 0.9rem; }
 
-  /* â”€ FILTER BAR â”€ */
+  /* ---*/
   .filter-btn          { padding: 0.45rem 0.95rem; font-size: 0.8rem; }
 
-  /* â”€ WIZARD â”€ */
+  /* ---*/
   .product-type-grid   { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
   .type-option         { padding: 0.6rem 0.35rem; }
   .type-icon           { font-size: 1.2rem; }
   .type-name           { font-size: 0.64rem; }
   .wizard-card         { padding: 1rem; }
 
-  /* â”€ STORY â”€ */
+  /* ---*/
   .story-img-stack     { height: 240px; }
   .story-img-main      { width: 78%; height: 88%; }
   .story-img-float     { width: 47%; height: 50%; }
@@ -2594,7 +2594,7 @@ input, textarea, select {
   .highlight-item strong { font-size: 0.88rem; }
   .highlight-item p    { font-size: 0.8rem; }
 
-  /* â”€ INSTAGRAM â”€ */
+  /* ---*/
   .insta-grid          {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.4rem;
@@ -2603,7 +2603,7 @@ input, textarea, select {
   .insta-overlay i     { font-size: 1.4rem; }
   .insta-overlay span  { font-size: 0.72rem; }
 
-  /* â”€ MODAL â”€ */
+  /* ---*/
   .modal-img-wrap      { height: 38vw; min-height: 160px; }
   .modal-product-name  { font-size: 1.1rem; }
   .modal-desc          { font-size: 0.88rem; }
@@ -2611,18 +2611,18 @@ input, textarea, select {
   .modal-body          { padding: 1rem 1rem 1.75rem; gap: 0.5rem; }
   .modal-note          { font-size: 0.8rem; }
 
-  /* â”€ FOOTER â”€ */
+  /* ---*/
   .footer-brand-name   { font-size: 0.95rem; }
   .footer-logo-img     { width: 68px; height: 68px; }
   .footer-tagline      { font-size: 0.88rem; }
   .footer-links-col    { text-align: center; }
   .footer-links-col ul { justify-content: center; }
 
-  /* â”€ DOODLE LAYER (reduce on small screens) â”€ */
+  /* ---*/
   .doodle              { opacity: 0.15; }
 }
 
-/* â”€â”€ 380px: Small phones (SE, Moto G) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (max-width: 380px) {
   .hero-title          { font-size: 1.75rem; }
   .hero-cards          { height: 170px; }
@@ -2649,7 +2649,7 @@ input, textarea, select {
   .btn                 { font-size: 0.85rem; }
 }
 
-/* â”€â”€ Touch-device improvements (applies across all phone/tablet) */
+/* ---*/
 @media (hover: none) and (pointer: coarse) {
   /* Bigger tap targets */
   .nav-link            { min-height: 52px; }
@@ -2671,7 +2671,7 @@ input, textarea, select {
   .nav-cta:hover       { transform: none; }
   .nav-cta:active      { transform: scale(0.97); }
 
-  /* Product hover overlay â†’ show on tap via JS class .tapped */
+  /* Product hover overlay ---*/
   .product-hover-overlay { opacity: 0; }
   .product-card.tapped .product-hover-overlay { opacity: 1; }
 
@@ -2682,7 +2682,7 @@ input, textarea, select {
   .filter-bar          { -webkit-overflow-scrolling: touch; }
 }
 
-/* â”€â”€ Safe area insets (iPhone notch / Dynamic Island) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @supports (padding: max(0px)) {
   .navbar .nav-container {
     padding-left:  max(2rem, env(safe-area-inset-left));
@@ -2704,7 +2704,7 @@ input, textarea, select {
   }
 }
 
-/* â”€â”€ Prefers reduced motion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+/* ---*/
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
