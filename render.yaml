@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: sabnam-handlooms
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn server:app
+    envVars:
+      - key: ADMIN_ID
+        value: Sabnam@AVM1
+      - key: ADMIN_PASSWORD
+        value: Sabnam@Handloom
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0

@@ -271,23 +271,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /* ─── DYNAMIC BACKEND HYDRATION ────────────────────────────────── */
 async function fetchAndHydrateProducts() {
-  try {
-    const res = await fetch('/api/products');
-    if (!res.ok) return;
-    const data = await res.json();
-    if (!data.success || !Array.isArray(data.products) || data.products.length === 0) return;
-
+  function renderList(productsList) {
+    if (!Array.isArray(productsList) || productsList.length === 0) return;
     const grid = document.getElementById('product-grid');
     if (!grid) return;
 
+    const activeList = productsList.filter(p => p.available !== false);
+    if (activeList.length === 0) return;
+
     grid.innerHTML = '';
 
-    data.products.forEach((prod, index) => {
+    activeList.forEach((prod, index) => {
       const numId = index + 1;
       const strId = prod.id || `prod-${numId}`;
       let imgPath = prod.image || 'images/hero_products_collage.jpg';
       if (imgPath.startsWith('/uploads/')) {
-        imgPath = imgPath.substring(1); // relative path
+        imgPath = imgPath.substring(1);
       }
 
       const prodData = {
@@ -304,7 +303,6 @@ async function fetchAndHydrateProducts() {
       PRODUCTS[numId] = prodData;
       PRODUCTS[strId] = prodData;
 
-      // Category lowercase for data-category filter
       let catDataAttr = 'decor';
       const catLower = (prod.category || '').toLowerCase();
       if (catLower.includes('bag')) catDataAttr = 'bags';
@@ -349,20 +347,37 @@ async function fetchAndHydrateProducts() {
       grid.appendChild(card);
     });
 
-    // Re-bind listeners for dynamic cards
     initProductWishlist();
     initProductModal();
     initTouchProductCards();
 
-    // Re-apply active filter if set
     const activeFilterBtn = document.querySelector('.filter-btn.active');
     if (activeFilterBtn && activeFilterBtn.dataset.filter !== 'all') {
       filterProducts(activeFilterBtn.dataset.filter);
     }
-  } catch (e) {
-    console.log('Using static catalog products.');
   }
+
+  // 1. Check local storage first for instant load
+  const saved = localStorage.getItem('sabnam_live_products');
+  if (saved) {
+    try {
+      const parsed = JSON.parse(saved);
+      renderList(parsed);
+    } catch (e) {}
+  }
+
+  // 2. Fetch from API in background and sync
+  try {
+    const res = await fetch('/api/products');
+    if (res.ok) {
+      const data = await res.json();
+      if (data.success && Array.isArray(data.products) && data.products.length > 0) {
+        renderList(data.products);
+      }
+    }
+  } catch (e) {}
 }
+
 
 /* ══════════════════════════════════════════════════════════════
    1. NAVBAR
